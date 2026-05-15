@@ -1,0 +1,17 @@
+@keyframes float {
+    0%, 100% { transform: translateY(0px) scale(1); }
+    50% { transform: translateY(-8px) scale(1.05); }
+}
+@keyframes floatDelayed {
+    0%, 100% { transform: translateY(0px) scale(1); }
+    50% { transform: translateY(-8px) scale(1.05); }
+}
+.animate-float {
+    animation: float 4s ease-in-out infinite;
+}
+.animate-float-delayed {
+    animation: floatDelayed 4.5s ease-in-out infinite 1s;
+}
+.custom-scrollbar::-webkit-scrollbar { width: 8px; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background: #58E1C8; border-radius: 10px; }
+.hidden { display: none !important; }

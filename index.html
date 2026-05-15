@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jardim da Empatia</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            green: '#69BF4A', blue: '#3AB8EE',
+                            teal: '#58E1C8', pink: '#F3249B', dark: '#02309D'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-green-50 min-h-screen font-sans flex flex-col">
+
+    <header class="w-full p-4 shadow-md text-white flex items-center justify-between bg-brand-dark z-10">
+        <h1 class="text-2xl font-bold flex items-center gap-2">🌱 Jardim da Empatia</h1>
+        <button id="btn-header-plant" class="hidden px-4 py-2 bg-white text-brand-dark text-sm font-bold rounded-full shadow hover:bg-gray-100 transition">
+            + Plantar Nova Mensagem
+        </button>
+    </header>
+
+    <main id="screen-welcome" class="flex flex-col items-center justify-center p-8 flex-grow text-center">
+        <div class="max-w-2xl bg-white p-10 rounded-3xl shadow-xl border-4 border-brand-teal">
+            <div class="text-8xl mb-6 animate-float">🌺</div>
+            <h2 class="text-4xl font-extrabold mb-4 text-brand-dark">Bem-vindo ao Jardim da Empatia!</h2>
+            <p class="text-lg text-gray-600 mb-8 leading-relaxed">
+                Este é um espaço seguro e colorido onde cultivamos palavras de carinho, motivação e amizade. Prontos para deixar o dia de alguém mais feliz?
+            </p>
+            <button id="btn-enter" class="text-xl px-8 py-4 text-white font-bold rounded-full transform transition hover:scale-105 shadow-lg bg-brand-pink">
+                Entrar no Jardim ➔
+            </button>
+        </div>
+    </main>
+
+    <main id="screen-selection" class="hidden flex-col items-center p-8 max-w-4xl mx-auto w-full">
+        <h2 class="text-3xl font-bold mb-2 text-center text-brand-dark">O que queres adicionar ao jardim?</h2>
+        <p class="text-gray-600 mb-8 text-center">Escolhe um elemento da natureza para carregar a tua mensagem.</p>
+        <div id="elements-grid" class="grid grid-cols-2 md:grid-cols-4 gap-6 w-full"></div>
+    </main>
+
+    <main id="screen-compose" class="hidden flex-col items-center p-8 flex-grow justify-center w-full">
+        <div class="max-w-xl w-full bg-white p-8 rounded-3xl shadow-xl">
+            <button id="btn-back-selection" class="text-sm font-bold text-gray-400 hover:text-gray-600 mb-6 flex items-center gap-1">← Voltar</button>
+            <div class="flex items-center gap-4 mb-6">
+                <span id="compose-icon" class="text-5xl"></span>
+                <h2 class="text-2xl font-bold text-brand-dark">Escreve a tua mensagem</h2>
+            </div>
+            <form id="compose-form" class="flex flex-col gap-5">
+                <div>
+                    <label class="block text-sm font-bold text-gray-600 mb-2">O teu primeiro nome:</label>
+                    <input type="text" id="input-name" required maxlength="20" placeholder="Ex: Sofia"
+                        class="w-full p-3 rounded-xl border-2 border-brand-teal outline-none focus:border-opacity-50">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-gray-600 mb-2">Mensagem de incentivo:</label>
+                    <textarea id="input-message" required maxlength="150" rows="4" placeholder="Escreve aqui algo bonito para motivar os teus colegas..."
+                        class="w-full p-4 rounded-xl border-2 border-brand-blue outline-none custom-scrollbar resize-none"></textarea>
+                </div>
+                <button type="submit" class="w-full text-xl py-4 text-white font-bold rounded-2xl transform transition hover:opacity-90 shadow-lg mt-4 bg-brand-green">
+                    Plantar no Jardim 🌱
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <main id="screen-garden" class="hidden p-4 sm:p-8 flex-grow flex-col w-full h-[calc(100vh-80px)]">
+        <div class="w-full bg-white rounded-3xl p-4 shadow-lg mb-4 flex justify-between items-center" style="border-left: 6px solid #F3249B;">
+            <p class="text-gray-700 font-medium">Explora o jardim! Clica nos elementos para leres as mensagens de empatia.</p>
+        </div>
+        <div class="relative w-full flex-grow rounded-3xl shadow-inner overflow-hidden border-4 border-brand-teal">
+            <div class="absolute inset-0" style="background: linear-gradient(to bottom, #3AB8EE 0%, #58E1C8 70%);"></div>
+            <div class="absolute bottom-0 left-0 right-0 h-[40%] origin-bottom bg-brand-green" 
+                 style="border-top-left-radius: 50% 30%; border-top-right-radius: 50% 30%; box-shadow: inset 0 20px 20px -20px rgba(0,0,0,0.3);"></div>
+            <div id="garden-container" class="absolute inset-0"></div>
+        </div>
+    </main>
+
+    <div id="modal-read" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-[1000] p-4">
+        <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-2xl max-w-sm w-full relative">
+            <button id="btn-close-modal" class="absolute top-4 right-4 text-gray-400 hover:text-red-500 font-bold text-xl">×</button>
+            <div class="flex flex-col items-center text-center">
+                <span id="modal-icon" class="text-6xl mb-4"></span>
+                <p id="modal-text" class="text-xl font-medium mb-6 text-gray-800 leading-relaxed italic"></p>
+                <div class="w-16 h-1 rounded-full mb-3 bg-brand-pink"></div>
+                <p class="text-sm font-bold text-gray-500 uppercase tracking-wider">
+                    Plantado por: <span id="modal-author" class="text-brand-dark"></span>
+                </p>
+                <button id="btn-delete" class="hidden mt-6 px-4 py-2 bg-red-50 text-red-500 rounded-xl text-sm font-bold hover:bg-red-100 transition border border-red-100 flex items-center gap-2">
+                    <span>🗑️</span> Excluir Mensagem
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>
